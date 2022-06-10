@@ -9,13 +9,7 @@ import UIKit
 
 class IntroductionViewController: UIViewController {
 
-    let questions = Question.getQuestions()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-
+    @IBAction func unwind(segue: UIStoryboardSegue) {}
 
 }
 

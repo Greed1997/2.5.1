@@ -9,21 +9,39 @@ import UIKit
 
 class ResultViewController: UIViewController {
 
+    @IBOutlet var animalLabel: UILabel!
+    @IBOutlet var descriptionLabel: UILabel!
+    
+    var answers: [Answer]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        navigationItem.hidesBackButton = true
+        updateResultUI()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func updateResultUI() {
+        var dictionaryOfAnimals: [Animal: Int] = [:]
+        let animals = answers.map { $0.animal }
+        
+//        var animals: [Animal] = []
+//        for answer in answers {
+//            animals.append(answer.animal)
+//        }
+        for animal in animals {
+            if let animalTypeCount = dictionaryOfAnimals[animal] {
+                dictionaryOfAnimals.updateValue(animalTypeCount + 1, forKey: animal)
+            } else {
+                dictionaryOfAnimals[animal] = 0
+            }
+        }
+        
+        guard let maxCountAnimal = dictionaryOfAnimals.sorted(by: { $0.value > $1.value }).first?.key else { return }
+        updateUI(with: maxCountAnimal)
     }
-    */
-
+    
+    private func updateUI(with animal: Animal?) {
+        animalLabel.text = "Вы - \(animal?.rawValue ?? "🐶")!"
+        descriptionLabel.text = animal?.description ?? ""
+    }
 }
